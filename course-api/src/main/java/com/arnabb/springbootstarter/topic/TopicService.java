@@ -9,6 +9,8 @@ import java.util.List;
 @Service
 public class TopicService {
 
+    // Array.asList is immutable, can't be manipulated (add or delete)
+    // ArrayList<> added to give it mutability and passes Array.asList as an object
     private List<Topic> topics = new ArrayList<>(Arrays.asList(
             new Topic("spring", "Spring Framework", "Spring Framework Description"),
             new Topic("java", "Core Java", "Core Java Description"),
@@ -32,5 +34,21 @@ public class TopicService {
 
     public void addTopic(Topic topic) {
         topics.add(topic);
+    }
+
+    public void updateTopic(String id, Topic topic) {
+        for(int i = 0; i<topics.size(); i++)
+        {
+            Topic t = topics.get(i);
+            if(t.getId().equals(id))
+            {
+                topics.set(i, topic);
+                return;
+            }
+        }
+    }
+
+    public void deleteTopic(String id) {
+        topics.removeIf(t -> t.getId().equals(id));
     }
 }
